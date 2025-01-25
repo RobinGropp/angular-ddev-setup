@@ -13,39 +13,6 @@ This DDEV setup provides a streamlined development environment for building Angu
 - **Auto-generation of Angular app** if no existing `angular.json` is found
 - Automatically starts the Angular development server on port 4200.
 
-### Configuration:
-
-name: angular-ddev-setup  
-type: php  
-docroot: 'dist'  
-php_version: '8.2'  
-webserver_type: nginx-fpm  
-router_http_port: '80'  
-router_https_port: '443'  
-xdebug_enabled: false  
-additional_hostnames: []  
-additional_fqdns: []  
-database:  
-  type: mariadb  
-  version: '10.4'  
-use_dns_when_possible: true  
-composer_version: '2'  
-omit_containers: [db, dba]  
-nodejs_version: '18'  
-hooks:  
-  post-start:  
-    - exec: 'if [ ! -f "angular.json" ]; then npm_config_yes=true npm_config_user_agent=yarn npx @angular/cli new angular-app --defaults --routing --style=scss; else echo "Boilerplate already set up."; fi;'  
-    - exec: 'if [ ! -f "angular.json" ]; then cd angular-app && rm -rf .git && mv * .. && cd .. && rm -rf angular-app; fi;'  
-    - exec: 'yarn install'  
-    - exec: 'yarn cache clean'  
-    - exec: 'pm2 start "yarn start --host 0.0.0.0 --port 4200"'  
-    - exec: 'echo -e "\033[32mYour Development Url: https://angular-ddev-setup.ddev.site:4200\033[0m"'  
-web_extra_exposed_ports:  
-  - name: angular-dev  
-    container_port: 4200  
-    http_port: 4200  
-    https_port: 4200  
-
 ### How to Use:
 
 1. **Clone this repository** or create a new project folder.
